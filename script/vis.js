@@ -4,7 +4,7 @@
 
 var CONST = {
 	// Cambiar a http://<hostname>/<directorio principal>
-	uriServer  : "http://localhost:8080/trabajo/"  
+	uriServer  : "http://localhost:8080/INFO175_Servicios/"  
 };
 
 var data = null;
