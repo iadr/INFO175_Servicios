@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class GetSampleData
+ * Servlet implementation class GetTotalsByUser
  * 
  * Ver el método doGet
  */
-@WebServlet("/GetSampleData")
-public class GetSampleData extends HttpServlet {
+@WebServlet("/GetTotalsByUser")
+public class GetTotalsByUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private DBInterface dbInterface; // dbInterface es para conectarse a la base de datos
 
-    public GetSampleData() {
+    public GetTotalsByUser() {
         super();
     }
 
@@ -69,7 +69,30 @@ public class GetSampleData extends HttpServlet {
 	private String outAsJSON(ArrayList<String[]> data) {
 		String outString = "[";
 		for(String[] row : data) {
-			outString += "\n    {\"userid\":\"" + row[0] + "\",\"applabel\":\"" + row[1] + "\",\"activitycount\":" + row[2] + "},";
+			outString += "\n "
+					+ "   {\"userid\":\"" + row[0]
+					+ "\", \"vis\":\"" + row[1]
+					+ "\", \"gender\":\"" + row[2]
+					+ "\", \"pretest\":\"" + row[3]
+					+ "\", \"posttest\":\"" + row[4]
+					+ "\", \"pretest_binned\":\"" + row[5]
+					+ "\", \"q_att\":\"" + row[6]
+					+ "\", \"q_att_succ\":\"" + row[7]
+					+ "\", \"dist_q_att\":\"" + row[8]
+					+ "\", \"dist_q_att_succ\":\"" + row[9]
+					+ "\", \"p_att\":\"" + row[10]
+					+ "\", \"p_att_succ\":\"" + row[11]
+					+ "\", \"dist_p_att\":\"" + row[12]
+					+ "\", \"dist_p_att_succ\":\"" + row[13]
+					+ "\", \"dist_e\":\"" + row[14]
+					+ "\", \"e_lines\":\"" + row[15]
+					+ "\", \"dist_ae\":\"" + row[16]
+					+ "\", \"ae_lines\":\"" + row[17]
+					+ "\", \"q_time\":\"" + row[18]
+					+ "\", \"p_time\":\"" + row[19]
+					+ "\", \"e_time\":\"" + row[20]
+					+ "\", \"ae_time\":\"" + row[21]
+					+ "\"},";
 		}
 		outString = outString.substring(0, outString.length() - 1);
 		outString += "\n]";

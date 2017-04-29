@@ -75,18 +75,54 @@ public class DBInterface {
 		try {
 			ArrayList<String[]> res = new ArrayList<String[]>();
 			stmt = conn.createStatement();
-			String query = "SELECT `user`, `applabel`, count(*) as `activity_count` "
-					+ "FROM `activity_traces` WHERE `durationseconds` > 0 "
-					+ "GROUP BY `user`, `applabel` ORDER BY `user`;";
+			String query = "select A.`user`, S.treatments_16 as vis, S.gender, S.pretest, S.posttest, S.pretest_binned,"
+					+ "  sum(if(A.appid=41,1,0)) as q_att, "
+					+ "  sum(if(A.appid=41 AND A.result=1,1,0)) as q_att_succ, "
+					+ "  count(distinct(if(A.appid=41,activityname,0)))-1 as dist_q_att, "
+					+ "  count(distinct(if(A.appid=41 AND A.result=1,A.activityname,0)))-1 as dist_q_att_succ, "
+					+ "  sum(if(A.appid=38,1,0)) as p_att, "
+					+ "  sum(if(A.appid=38 AND result=1,1,0)) as p_att_succ, "
+					+ "  count(distinct(if(A.appid=38,A.activityname,0)))-1 as dist_p_att, "
+					+ "  count(distinct(if(A.appid=38 AND A.result=1,A.activityname,0)))-1 as dist_p_att_succ, "
+					+ "  count(distinct(if(A.appid=3,A.parentname,0)))-1 as dist_e, "
+					+ "  sum(if(A.appid=3,1,0)) as e_lines, "
+					+ "  count(distinct(if(A.appid=35,A.parentname,0)))-1 as dist_ae, "
+					+ "  sum(if(A.appid=35,1,0)) as ae_lines, "
+					+ "  sum(if(A.appid=41,A.durationseconds,0)) as q_time, "
+					+ "  sum(if(A.appid=38,A.durationseconds,0)) as p_time, "
+					+ "  sum(if(A.appid=3,A.durationseconds,0)) as e_time, "
+					+ "  sum(if(A.appid=35,A.durationseconds,0)) as ae_time "
+					+ "from activity_traces A, student_info S "
+					+ "where A.`user` = S.`userid` and A.durationseconds > 0 and A.appid > -1 "
+					+ "group by A.`user`";
 			rs = stmt.executeQuery(query);
 
 			// rs contiene una estructura de tipo SET que contiene todas
 			// las filas de la respuesta de la base de datos
 			while (rs.next()) {
-				String[] dataPoint = new String[3];
+				String[] dataPoint = new String[22];
 				dataPoint[0] = rs.getString("user"); // rs.getString obtiene el valor String de un campo especifico consultado, en este caso el campo "user". Notar que este nombre de campodebe coincidir con los campos en la consulta (SELECT `user`, ...) 
-				dataPoint[1] = rs.getString("applabel");
-				dataPoint[2] = rs.getString("activity_count");
+				dataPoint[1] = rs.getString("vis");
+				dataPoint[2] = rs.getString("gender");
+				dataPoint[3] = rs.getString("pretest");
+				dataPoint[4] = rs.getString("posttest");
+				dataPoint[5] = rs.getString("pretest_binned");
+				dataPoint[6] = rs.getString("q_att");
+				dataPoint[7] = rs.getString("q_att_succ");
+				dataPoint[8] = rs.getString("dist_q_att");
+				dataPoint[9] = rs.getString("dist_q_att_succ");
+				dataPoint[10] = rs.getString("p_att");
+				dataPoint[11] = rs.getString("p_att_succ");
+				dataPoint[12] = rs.getString("dist_p_att");
+				dataPoint[13] = rs.getString("dist_p_att_succ");
+				dataPoint[14] = rs.getString("dist_e");
+				dataPoint[15] = rs.getString("e_lines");
+				dataPoint[16] = rs.getString("dist_ae");
+				dataPoint[17] = rs.getString("ae_lines");
+				dataPoint[18] = rs.getString("q_time");
+				dataPoint[19] = rs.getString("p_time");
+				dataPoint[20] = rs.getString("e_time");
+				dataPoint[21] = rs.getString("ae_time");
 				res.add(dataPoint);
 				
 			}
