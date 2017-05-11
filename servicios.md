@@ -60,7 +60,7 @@ select A.`user`, S.treatments_16 as vis, S.gender, S.pretest, S.posttest, S.pret
 	sum(if(A.appid=35,A.durationseconds,0)) as ae_time 
 from activity_traces A, student_info S 
 	where A.`user` = S.`userid` and A.durationseconds > 0 and A.appid > -1 
-	group by A.`user`
+	group by A.`user`;
 ```
 ### Procesamiento
 * `gender` : se codifica a female/male de los valores 0/1
